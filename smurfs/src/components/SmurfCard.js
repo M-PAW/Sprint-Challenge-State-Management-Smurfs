@@ -1,26 +1,23 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-
-// Cards
-const getSmurf = () => {
-
-    axios
-    .get('http://localhost:3333/smurfs')
-    .then( response => {
-        console.log(response)
-    })
-
-}
-
+import React from 'react'; 
+import { useContext } from 'react';
+import { SmurfCardContext } from '../contexts/SmurfCardContext';
+import cuid from 'cuid';
 export const SmurfCard = () => {
-
-    const [ smurf, setSmurf ] = useState(getSmurf);
-    console.log(smurf)
-
+    const { smurf } = useContext(SmurfCardContext);
+    
     return (
-        <>
-        </>
-    )
-
-
+    
+    <div className="smurfCard">
+        {smurf.map(item=>{
+            return (
+                <div key={cuid()}>
+                <p>{item.name}</p>
+                <p>{item.age}</p>
+                <p>{item.height}</p>
+                 </div>
+            )
+            })}
+        
+    </div>); 
+    
 }

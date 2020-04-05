@@ -1,16 +1,28 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-class App extends Component {
-  render() {
+import axios from 'axios';
+import { SmurfCardContext } from '../contexts/SmurfCardContext';
+// Components
+import  Form from './Form';
+import { SmurfCard } from './SmurfCard';
+const App = () => {
+  const [smurf, setSmurf] = useState([]);
+  useEffect(()=>{
+    axios
+    .get('http://localhost:3333/smurfs')
+    .then( res => {
+      console.log("Response with data",res.data)
+      setSmurf(res.data)
+    })
+    .catch(error => console.log('Error is getting data', error))
+  },[])
     return (
       <div className="App">
-        <h1>SMURFS! 2.0 W/ Redux</h1>
-        <div>Welcome to your state management version of Smurfs!</div>
-        <div>Start inside of your `src/index.js` file!</div>
-        <div>Have fun!</div>
+        <SmurfCardContext.Provider value={{smurf}}>
+        <Form/>
+        <SmurfCard/>
+        </SmurfCardContext.Provider>
       </div>
     );
   }
-}
-
 export default App;
